@@ -15,4 +15,5 @@ public class Tasks {
     private String taskName;
     private String taskDetails;
     private String taskStatus = "Todo";
+
 }

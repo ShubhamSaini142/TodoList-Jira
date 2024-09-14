@@ -22,7 +22,7 @@ public class TaskController {
             return ResponseEntity.badRequest().body("Please use Correct Status");
         }
         taskservice.SaveTask(tasks);
-        return new ResponseEntity<String>("TASKS HAS BEEN CREATED", HttpStatus.OK);
+        return new ResponseEntity<String>("TASKS HAS BEEN CREATED", HttpStatus.CREATED);
 
     }
 
@@ -30,4 +30,16 @@ public class TaskController {
     private List<Tasks> GetAllCreatedTasks(){
        return taskservice.GetTasks();
     }
+
+    @PatchMapping("/update/{id}")
+    private ResponseEntity<?> UpdateStatus(@PathVariable Long id,@RequestBody Tasks tasks){
+        if (!"TODO".equals(tasks.getTaskStatus()) && !"PROGRESS".equals(tasks.getTaskStatus())
+                && !"UNDER-REVIEW".equals(tasks.getTaskStatus()) && !"COMPLETED".equals(tasks.getTaskStatus())) {
+            return ResponseEntity.badRequest().body("Please use Correct Status");
+        }
+      return new ResponseEntity<>(taskservice.updateStatus(id,tasks.getTaskStatus()),HttpStatus.OK);
+
+
+    }
+
 }
