@@ -51,18 +51,22 @@ public AuthenticationProvider authenticationProvider(){
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        http    .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/login").permitAll()
-                        .requestMatchers("/tasks/create").authenticated()
-                        .requestMatchers("/tasks/getall").authenticated()
-                        .requestMatchers("/tasks/update/{id}").authenticated()
+                        .requestMatchers("/register", "/login","/tasks/**").permitAll()
+//                        .requestMatchers("/tasks/create").authenticated()
+//                        .requestMatchers("/tasks/getall").authenticated()
+//                        .requestMatchers("/tasks/update/{id}").authenticated()
                         .anyRequest().authenticated()
-                )
+           )
+//                .formLogin(form -> form
+//                        .loginProcessingUrl("/login")
+//                        .permitAll()
+//                )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(LogoutConfigurer::permitAll // Allow all users to access logout
-                ).httpBasic(Customizer.withDefaults());
+                );
 
 
         return http.build();
