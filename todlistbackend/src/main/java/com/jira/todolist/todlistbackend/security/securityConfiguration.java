@@ -55,19 +55,25 @@ public AuthenticationProvider authenticationProvider(){
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register", "/login","/tasks/**").permitAll()
+//                                .requestMatchers("/home").authenticated()
 //                        .requestMatchers("/tasks/create").authenticated()
 //                        .requestMatchers("/tasks/getall").authenticated()
 //                        .requestMatchers("/tasks/update/{id}").authenticated()
                         .anyRequest().authenticated()
            )
-//                .formLogin(form -> form
-//                        .loginProcessingUrl("/login")
-//                        .permitAll()
-//                )
-                .formLogin(AbstractHttpConfigurer::disable)
-                .logout(LogoutConfigurer::permitAll // Allow all users to access logout
+                .formLogin(form -> form
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/home", true) // Redirect to /home after successful login
+                        .permitAll()
+                )
+//                .formLogin(AbstractHttpConfigurer::disable)
+//                .logout(LogoutConfigurer::permitAll // Allow all users to access logout
+//                );
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout") // Redirect to login page after logout
+                        .permitAll()
                 );
-
 
         return http.build();
 
