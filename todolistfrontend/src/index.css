@@ -1,3 +1,37 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+
+.kanban-board {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.kanban-column {
+  background-color: #f4f4f4;
+  padding: 15px;
+  border-radius: 8px;
+  width: 22%;
+  min-height: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.kanban-column h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.kanban-task {
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+}
+
+.kanban-task p {
+  margin: 0;
+}

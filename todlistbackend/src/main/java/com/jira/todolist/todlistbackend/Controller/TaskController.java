@@ -18,9 +18,12 @@ public class TaskController {
 
     @PostMapping("/create")
     private ResponseEntity<?> CreateTasks(@RequestBody Tasks tasks) {
-        if (!"TODO".equals(tasks.getTaskStatus()) && !"PROGRESS".equals(tasks.getTaskStatus())
-                && !"UNDER-REVIEW".equals(tasks.getTaskStatus()) && !"COMPLETED".equals(tasks.getTaskStatus())) {
+        if (!"TODO".equals(tasks.getTaskStatus()) && !"INPROGRESS".equals(tasks.getTaskStatus())
+                && !"UNDERREVIEW".equals(tasks.getTaskStatus()) && !"COMPLETED".equals(tasks.getTaskStatus())) {
             return ResponseEntity.badRequest().body("Please use Correct Status");
+        }
+        if(tasks.getTaskName().isEmpty() && tasks.getTaskDetails().isEmpty()){
+            return ResponseEntity.badRequest().body("Please Fill the Data");
         }
         taskservice.SaveTask(tasks);
         return new ResponseEntity<String>("TASKS HAS BEEN CREATED", HttpStatus.OK);
@@ -34,8 +37,8 @@ public class TaskController {
 
     @PatchMapping("/update/{id}")
     private ResponseEntity<?> UpdateStatus(@PathVariable Long id, @RequestBody Tasks tasks) {
-        if (!"TODO".equals(tasks.getTaskStatus()) && !"PROGRESS".equals(tasks.getTaskStatus())
-                && !"UNDER-REVIEW".equals(tasks.getTaskStatus()) && !"COMPLETED".equals(tasks.getTaskStatus())) {
+        if (!"TODO".equals(tasks.getTaskStatus()) && !"IN_PROGRESS".equals(tasks.getTaskStatus())
+                && !"UNDER_REVIEW".equals(tasks.getTaskStatus()) && !"DONE".equals(tasks.getTaskStatus())) {
             return ResponseEntity.badRequest().body("Please use Correct Status");
         }
       return new ResponseEntity<>(taskservice.updateStatus(id,tasks.getTaskStatus()),HttpStatus.OK);
